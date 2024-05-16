@@ -12,6 +12,9 @@ contract Lottery{
     
    using BokkyPooBahsDateTimeLibrary for uint;
 
+   error InSufficientLotteryValueBuy(uint256 MinimumValue, string msg);
+   event ActionSuccess(string message);
+
     struct WinningDetails {
         uint LotteryID;
         uint WinningAmount;
@@ -49,10 +52,12 @@ contract Lottery{
         return _players;
     }
 
+    
 
     function enter() public payable{ 
-        require(msg.value > .001 ether); 
+        require(msg.value > .001 ether,"Minimum value of 2000000000000000 Wei needed"); 
         _players.push(payable(msg.sender));
+        emit ActionSuccess("Entered into Lottery");
     }
     
     function random() public view returns(uint){ 
